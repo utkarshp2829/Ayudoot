@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import HealCore from './components/HealCore';
+import HealCore from './components/Ayudoot';
 
 function App() {
   return (
