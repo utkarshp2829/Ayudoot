@@ -1,29 +1,6 @@
-const express = require("express");
-const app = express();
+const app = require('./app');
+const env = require('./config/env');
 
-const PORT = 3000;
-
-app.use(express.json());
-app.get("/", (req,res) => {
-    res.send("Server is running!")
+app.listen(env.port, () => {
+  console.log(`Ayudoot auth backend listening on http://localhost:${env.port}`);
 });
-app.get("/signup", (req,res) => {
-    res.send("Signup page")
-});
-app.get("/api/health", (req,res) => {
-    res.json({
-        status: "OK",
-        message: "Ayudoot backend is running"
-    })
-});
-app.post("/api/test", (req, res) => {
-    console.log(req.body);
-
-    res.json({
-        success: true,
-        receivedData: req.body
-    });
-});
-
-
-app.listen(3000);

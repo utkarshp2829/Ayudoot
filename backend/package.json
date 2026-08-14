@@ -1,24 +1,26 @@
 {
-  "name": "ayudoot",
+  "name": "ayudoot-auth-backend",
   "version": "1.0.0",
-  "description": "A comprehensive Healthcare solution for Healthcare providers, government and citizenry. - Made by team Seedhe Code",
-  "main": "index.js",
+  "description": "Authentication-only backend for Ayudoot (doctor + patient login via Firebase Auth + PostgreSQL/Prisma)",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name init"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/utkarshp2829/Ayudoot.git"
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/utkarshp2829/Ayudoot/issues"
-  },
-  "homepage": "https://github.com/utkarshp2829/Ayudoot#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "@prisma/client": "^5.20.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "firebase-admin": "^12.5.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "prisma": "^5.20.0"
   }
 }
