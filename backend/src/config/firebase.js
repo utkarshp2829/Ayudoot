@@ -1,18 +1,21 @@
 const admin = require('firebase-admin');
-const env = require('./env');
 
-// Firebase Admin SDK - used ONLY for:
-//  - creating Firebase users during registration
-//  - verifying Firebase ID tokens on protected routes
-// It never signs a user in with a password (Admin SDK has no such method).
+function getFormattedPrivateKey() {
+  const key = process.env.FIREBASE_PRIVATE_KEY;
+  if (!key) return undefined;
+
+  // Strip accidental outer quotes and replace escaped newlines
+  return key.trim().replace(/^["']|["']$/g, '').replace(/\\n/g, '\n');
+}
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: env.firebase.projectId,
-      clientEmail: env.firebase.clientEmail,
-      privateKey: env.firebase.privateKey,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: getFormattedPrivateKey(),
     }),
   });
 }
 
-module.exports = { admin };
+module.exports = admin;
