@@ -1,0 +1,59 @@
+// ==========================================================
+// Ayudoot - Auth-only Prisma schema
+// Only the models required for login/authentication.
+// ==========================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  DOCTOR
+  PATIENT
+}
+
+// Core identity record. One row per person who can log in.
+// Firebase owns the password; this table owns the role + business ID.
+model User {
+  id          String   @id @default(uuid())
+  firebaseUid String   @unique
+  loginId     String   @unique // D_100001 or P_100001
+  role        Role
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  doctorProfile  DoctorProfile?
+  patientProfile PatientProfile?
+}
+
+model DoctorProfile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  D_ID           String   @unique
+  fullName       String
+  email          String   @unique
+  specialization String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model PatientProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  P_ID        String   @unique
+  fullName    String
+  email       String   @unique
+  dateOfBirth DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
