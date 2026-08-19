@@ -1,5 +1,6 @@
+import logo from "./assets/logo.png";
 import { useState } from 'react'
-import HealCore from './components/Ayudoot';
+import HealCore from './components/LoginPage';
 
 function App() {
   return (
