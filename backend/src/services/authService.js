@@ -291,7 +291,7 @@ async function getCurrentUser(userId, role) {
   return null;
 }
 
-module.exports = {
+export {
   mockUsers,
   registerDoctor,
   registerPatient,

@@ -1,12 +1,14 @@
-require('dotenv').config();
- 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 // Centralizes every environment variable in one place so the rest of the
 // codebase never touches process.env directly.
 const env = {
   port: process.env.PORT || 5000,
   databaseUrl: process.env.DATABASE_URL,
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
- 
+
   firebase: {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
@@ -22,7 +24,7 @@ const env = {
     apiKey: process.env.FIREBASE_API_KEY,
   },
 };
- 
+
 const required = [
   ['DATABASE_URL', env.databaseUrl],
   ['FIREBASE_PROJECT_ID', env.firebase.projectId],
@@ -30,7 +32,7 @@ const required = [
   ['FIREBASE_PRIVATE_KEY', env.firebase.privateKey],
   ['FIREBASE_API_KEY', env.firebase.apiKey],
 ];
- 
+
 for (const [name, value] of required) {
   if (!value) {
     // Fail loudly at boot rather than mysteriously later.
@@ -38,6 +40,5 @@ for (const [name, value] of required) {
     console.warn(`[env] Warning: ${name} is not set. Check your .env file.`);
   }
 }
- 
-module.exports = env;
- 
+
+export default env;

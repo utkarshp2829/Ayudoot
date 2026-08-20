@@ -1,4 +1,4 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
 
 function getFormattedPrivateKey() {
   const key = process.env.FIREBASE_PRIVATE_KEY;
@@ -18,4 +18,4 @@ if (!admin.apps.length) {
   });
 }
 
-module.exports = admin;
+export default admin;

@@ -1,4 +1,4 @@
-const authService = require('../services/authService');
+import * as authService from '../services/authService.js';
 
 async function doctorRegister(req, res, next) {
   try {
@@ -97,7 +97,7 @@ async function logout(req, res) {
   });
 }
 
-module.exports = {
+export default {
   doctorRegister,
   patientRegister,
   doctorLogin,

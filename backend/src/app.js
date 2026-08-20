@@ -1,9 +1,9 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 
-const env = require('./config/env');
-const authRoutes = require('./routes/authRoutes');
-const { errorHandler } = require('./middleware/errorHandler');
+import env from './config/env.js';
+import authRoutes from './routes/authRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -25,4 +25,4 @@ app.use('/api/auth', authRoutes);
 // Must be registered last.
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

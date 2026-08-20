@@ -1,4 +1,4 @@
-const { prisma } = require('../config/prisma');
+import { prisma } from '../config/prisma.js';
 
 const START_NUMBER = 100001;
 

@@ -1,5 +1,5 @@
-const admin = require('../config/firebase');
-const { prisma } = require('../config/prisma');
+import admin from '../config/firebase.js';
+import { prisma } from '../config/prisma.js';
 
 /**
  * Protects routes that require an authenticated user.
@@ -63,4 +63,4 @@ async function firebaseAuthMiddleware(req, res, next) {
   }
 }
 
-module.exports = { firebaseAuthMiddleware };
+export { firebaseAuthMiddleware };

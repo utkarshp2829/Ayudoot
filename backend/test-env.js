@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config';
 
 console.log('--- ENV INTEGRITY CHECK ---');
 console.log('Project ID Loaded:', !!process.env.FIREBASE_PROJECT_ID);

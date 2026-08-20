@@ -1,59 +1,66 @@
-// ==========================================================
-// Ayudoot - Auth-only Prisma schema
-// Only the models required for login/authentication.
-// ==========================================================
+// schema.prisma
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  extensions = [vector]
 }
 
-enum Role {
-  DOCTOR
-  PATIENT
+model Hospital {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  city      String
+  createdAt DateTime @default(now())
+
+  // Many-to-Many: A hospital has many doctors
+  doctors   Doctor[] 
+  
+  // One-to-Many: A hospital stores many medical records
+  records   MedicalRecord[]
 }
 
-// Core identity record. One row per person who can log in.
-// Firebase owns the password; this table owns the role + business ID.
-model User {
+model Doctor {
   id          String   @id @default(uuid())
   firebaseUid String   @unique
-  loginId     String   @unique // D_100001 or P_100001
-  role        Role
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  doctorProfile  DoctorProfile?
-  patientProfile PatientProfile?
+  name        String
+  specialty   String
+  
+  // Many-to-Many: A doctor works at many hospitals
+  hospitals   Hospital[] 
+  
+  // One-to-Many: A doctor creates many medical records
+  records     MedicalRecord[]
 }
 
-model DoctorProfile {
-  id             String   @id @default(uuid())
-  userId         String   @unique
-  D_ID           String   @unique
-  fullName       String
-  email          String   @unique
-  specialization String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id])
-}
-
-model PatientProfile {
+model Patient {
   id          String   @id @default(uuid())
-  userId      String   @unique
-  P_ID        String   @unique
-  fullName    String
-  email       String   @unique
+  firebaseUid String   @unique
+  name        String
   dateOfBirth DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  bloodType   String?
+  
+  // One-to-Many: A patient has many medical records 
+  // (This acts as the bridge connecting them to many doctors and many hospitals)
+  records     MedicalRecord[]
+}
 
-  user User @relation(fields: [userId], references: [id])
+model MedicalRecord {
+  id           String   @id @default(uuid())
+  diagnosis    String
+  duration     Int
+  createdAt    DateTime @default(now())
+  // The Junction Links
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id])
+
+  doctorId     String
+  doctor       Doctor   @relation(fields: [doctorId], references: [id])
+
+  hospitalId   String
+  hospital     Hospital @relation(fields: [hospitalId], references: [id])
 }

@@ -1,14 +1,14 @@
-const express = require('express');
+import express from 'express';
 
-const { validate } = require('../middleware/validate');
-const { firebaseAuthMiddleware } = require('../middleware/authMiddleware'); // Updated to authMiddleware
-const {
+import { validate } from '../middleware/validate.js';
+import { firebaseAuthMiddleware } from '../middleware/authMiddleware.js'; // Updated to authMiddleware
+import {
   doctorLoginSchema,
   patientLoginSchema,
   doctorRegisterSchema,
   patientRegisterSchema,
-} = require('../schemas/authSchema'); // Updated to authSchema (singular)
-const authController = require('../controllers/authController');
+} from '../schemas/authSchema.js'; // Updated to authSchema (singular)
+import authController from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -26,4 +26,4 @@ router.get('/me', firebaseAuthMiddleware, authController.getMe);
 // Logout
 router.post('/logout', authController.logout);
 
-module.exports = router;
+export default router;
